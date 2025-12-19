@@ -1,6 +1,8 @@
 import player
 import requests
 from bs4 import BeautifulSoup
+from player import Player
+from databaseDriver import DatabaseDriver
 
 url = 'https://nextgenstats.nfl.com/api/leaders/speed/ballCarrier'
 params = {
@@ -18,50 +20,50 @@ headers = {
 response = requests.get(url, params=params, headers=headers)
 response.raise_for_status()
 data = response.json()
+file = "NFL_stats.sqlite"
+#dict_keys: (['season', 'seasonType', 'leaders'])
+leaders = data["leaders"]
+def scrape_leaders(leaders):
+    players = []
+    for l in leaders:
+        #leader
+        #nflId = r['leader']["nflId"]
+        #esbId = r['leader']["esbId"]
+        #gsis primary official identifier
+        gsisId = l['leader']["gsisId"]
 
-print(data.keys())
+        #firstName = r['leader']["firstName"]
+        #lastName = r['leader']["lastName"]
+        shortName = l['leader']["shortName"]
+        playerName = l['leader']["playerName"]
 
-rows = data["leaders"]
+        jerseyNumber = l['leader']["jerseyNumber"]
 
-players = []
-for r in rows:
-    #leader
-    #nflId = r['leader']["nflId"]
-    #esbId = r['leader']["esbId"]
-    #gsis primary official identifier
-    gsisId = r['leader']["gsisId"]
+        position = l['leader']["position"]
+        #positionGroup = l['leader']["positionGroup"]
 
-    #firstName = r['leader']["firstName"]
-    #lastName = r['leader']["lastName"]
-    shortName = r['leader']["shortName"]
-    playerName = r['leader']["playerName"]
+        teamAbbr = l['leader']["teamAbbr"]
+        teamId = l['leader']["teamId"]
 
-    jerseyNumber = r['leader']["jerseyNumber"]
+        week = l['leader']["week"]
 
-    position = r['leader']["position"]
-    positionGroup = r['leader']["positionGroup"]
+        yards = l['leader']["yards"]
+        inPlayDist = l['leader']["inPlayDist"]
+        maxSpeed = l['leader']["maxSpeed"]
 
-    teamAbbr = r['leader']["teamAbbr"]
-    teamId = r['leader']["teamId"]
-
-    week = r['leader']["week"]
-
-    yards = r['leader']["yards"]
-    inPlayDist = r['leader']["inPlayDist"]
-    maxSpeed = r['leader']["maxSpeed"]
-
-    player = player.Player(gsisId,shortName,playerName,jerseyNumber,position,teamAbbr,teamId,week,yards,inPlayDist,maxSpeed)
-    players.append(player)
-
-    #print("Player Name:",playerName)
-    #print("Team Abbr:",teamAbbr)
-    #print("In Play Distance:",inPlayDist)
-    #print("Max Speed:",maxSpeed)
-    #play
-    #gameId = r['play']['gameId']
-    #print("Game ID:",gameId)
-    #print(r['play'])
-
-
-print(len(rows))
-print(rows[0])
+        player = Player(gsisId,shortName,playerName,jerseyNumber,position,teamAbbr,teamId,week,yards,inPlayDist,maxSpeed)
+        players.append(player)
+        #print("Player Name:",playerName)
+        #print("Team Abbr:",teamAbbr)
+        #print("In Play Distance:",inPlayDist)
+        #print("Max Speed:",maxSpeed)
+        #play
+        #gameId = r['play']['gameId']
+        #print("Game ID:",gameId)
+        #print(r['play'])
+def load_leaders(players):
+    db = DatabaseDriver(file)
+    db.connect()
+    db.createDatabase()
+    db.addPlayer(players)
+    db.disconnect()

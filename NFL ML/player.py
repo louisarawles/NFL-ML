@@ -5,7 +5,7 @@ class Player:
         self.shortName = shortName
         self.playerName = playerName
         self.jerseyNumber = jerseyNumber
-        self.position = position
+        self.positionAbbr = position
         self.teamAbbr = teamAbbr
         self.teamId = teamId
         #self.week = week
