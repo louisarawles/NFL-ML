@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/AcademicProgressGuide" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/CourseScheduler" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/servo_cup" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/servo_cup/stretch_visual_servoing_cup" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/servo_cup/visualServoingCup" vcs="Git" />
+  </component>
+</project>
