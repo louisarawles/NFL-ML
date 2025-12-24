@@ -1,5 +1,7 @@
 import sqlite3
 
+from NFLDataClasses.ballCarrier import BallCarrier
+
 
 class DatabaseDriver:
 
@@ -133,6 +135,27 @@ class DatabaseDriver:
                                  PRIMARY KEY (playTypeCode)
                              ) \
                           """
+        queryCreateBallCarriers = """CREATE TABLE IF NOT EXISTS BallCarriers(
+        bcId VARCHAR NOT NULL,
+        gsisId VARCHAR NOT NULL,
+        playerName VARCHAR,
+        teamAbbr VARCHAR,
+        positionAbbr VARCHAR,
+        speed FLOAT,
+        week INT,
+        playType VARCHAR,
+        PRIMARY KEY (bcId))"""
+
+        queryCreateLongestPlays = """CREATE TABLE IF NOT EXISTS LongestPlays(
+            lpId VARCHAR NOT NULL,
+            gsisId VARCHAR NOT NULL,
+            playerName VARCHAR,
+            teamAbbr VARCHAR,
+            positionAbbr VARCHAR,
+            distance FLOAT,
+            week INT,
+            playType VARCHAR,
+            PRIMARY KEY (lpId))"""
         try:
             print("Connection established")
             self.cursor.execute(queryCreatePlayer)
@@ -141,6 +164,8 @@ class DatabaseDriver:
             self.cursor.execute(queryCreatePlay)
             self.cursor.execute(queryCreatePlayStats)
             self.cursor.execute(queryCreatePlayType)
+            self.cursor.execute(queryCreateBallCarriers)
+            self.cursor.execute(queryCreateLongestPlays)
         except sqlite3.Error as error:
             self.sqliteConnection.rollback()
             print("Error occurred: ", error)
@@ -177,6 +202,92 @@ class DatabaseDriver:
             insertQuery = """INSERT OR IGNORE INTO Player(gsisId,shortName,playerName,jerseyNumber,positionAbbr,teamAbbr,teamId)
                                   VALUES (?,?,?,?,?,?,?)"""
             self.cursor.executemany(insertQuery,data)
+        except sqlite3.Error as error:
+            self.sqliteConnection.rollback()
+            print("Error occurred: ", error)
+        else:
+            self.sqliteConnection.commit()
+
+    def addBallCarriers(self, ballCarriers):
+        if not ballCarriers:
+            return
+        try:
+            # currBallCarriers = self.getBallCarriers_bySpeed()
+            # if len(currBallCarriers) < 1:
+            #     bcs = ballCarriers
+            #     #sortedbc = sorted(ballCarriers, key=lambda bc: bc.speed, reverse=True)
+            # else:
+            #     for bc in ballCarriers:
+            #         if bc not in currBallCarriers:
+            #             currBallCarriers.append(bc)
+            #     bcs = currBallCarriers
+                #sortedbc = sorted(currBallCarriers, key=lambda bc: bc.speed, reverse=True)
+            data = [
+                (bc.bcId,
+                bc.gsisId,
+                bc.playerName,
+                bc.teamAbbr,
+                bc.positionAbbr,
+                bc.speed,
+                bc.week,
+                bc.playType)
+                for bc in ballCarriers
+            ]
+            insertQuery = """INSERT OR IGNORE INTO BallCarriers(
+            bcId,gsisId,playerName,teamAbbr,positionAbbr,speed,week,playType) VALUES (?,?,?,?,?,?,?,?)"""
+            self.cursor.executemany(insertQuery, data)
+
+        except sqlite3.Error as error:
+            self.sqliteConnection.rollback()
+            print("Error occurred: ", error)
+        else:
+            self.sqliteConnection.commit()
+
+    def getBallCarriers_bySpeed(self):
+        ballCarriers = []
+        try:
+            query = """SELECT bcId, playerName, teamAbbr, positionAbbr, speed, week, playType 
+                       FROM BallCarriers
+                    ORDER BY speed DESC"""
+            rs = self.cursor.execute(query)
+            for row in rs:
+                bcId = row[0]
+                gsisId = row[1]
+                playerName = row[2]
+                teamAbbr = row[3]
+                positionAbbr = row[4]
+                speed = row[5]
+                week = row[6]
+                playType = row[7]
+                bc = BallCarrier(bcId=bcId,gsisId=gsisId,playerName=playerName,teamAbbr=teamAbbr,positionAbbr=positionAbbr,speed=speed,week=week,playType=playType)
+                #print(bc)
+                ballCarriers.append(bc)
+        except sqlite3.Error as error:
+            self.sqliteConnection.rollback()
+            print("Error occurred: ", error)
+        else:
+            return ballCarriers
+
+    def addLongestPlays(self, plays):
+        longestPlays = []
+        if not plays:
+            return
+        try:
+            data = [
+                (
+                p.lpId,
+                p.gsisId,
+                p.playerName,
+                p.teamAbbr,
+                p.positionAbbr,
+                p.distance,
+                p.week,
+                p.playType)
+                for p in plays
+            ]
+            insertQuery = """INSERT OR IGNORE INTO LongestPlays(lpId,gsisId,playerName,teamAbbr,positionAbbr,distance,week,playType)
+                          VALUES (?,?,?,?,?,?,?,?)"""
+            self.cursor.executemany(insertQuery, data)
         except sqlite3.Error as error:
             self.sqliteConnection.rollback()
             print("Error occurred: ", error)
