@@ -1,6 +1,8 @@
 import requests
 import numpy as np
 
+import NFLDataVis.zone_plots
+from NFLDataVis.zone_plots import show_zone_performance
 from NFLDataClasses.game import Game
 from NFLDataClasses.passRusher import PassRusher
 from NFLDataClasses.passer import Passer
@@ -117,6 +119,10 @@ def encapsulate_rusherZoneStats(gameId,rusher):
     esbId = rusher.get('esbId')
     rushYards = rusher.get('rushYards')
     rushInfo = rusher.get('rushInfo')
+    if rushInfo is None:
+        err = f"No rush information found for player {playerName}."
+        return err
+
     touchdowns = rushInfo.get('touchdowns')
     distance = rushInfo.get('distance')
     avgYards= rushInfo.get('avgYards')
@@ -152,6 +158,9 @@ def encapsulate_receiverZoneStats(g_id,rec):
 
     recYards = rec.get('recYards')
     receptionInfo = rec.get('receptionInfo')
+    if receptionInfo is None:
+        err = f"No reception information found for player {playerName}."
+        return err
 
     avgAirYards = receptionInfo.get('avgAirYards')
     avgCushion = receptionInfo.get('avgCushion')
@@ -241,7 +250,8 @@ if __name__ == '__main__':
     # home game stats
     home_passer = passers.get('home')
     h_passer = encapsulate_passerZoneStats(g_id,home_passer)
-
+    h_zones = h_passer.zones
+    NFLDataVis.zone_plots.show_zone_performance(h_passer.playerName, h_zones)
     home_rushers = rushers.get('home')
     hrs = []
     for hr in home_rushers:
@@ -275,6 +285,7 @@ if __name__ == '__main__':
     v_passer = encapsulate_passerZoneStats(g_id,visitor_passer)
 
     visitor_rushers = rushers.get('visitor')
+    print(visitor_rushers)
     vrs = []
     for vr in visitor_rushers:
         v_rusher = encapsulate_rusherZoneStats(g_id,vr)
