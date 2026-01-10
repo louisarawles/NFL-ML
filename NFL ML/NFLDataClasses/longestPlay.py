@@ -1,11 +1,11 @@
 from dataclasses import dataclass
 
 @dataclass(order=True)
-class DistancePlay:
+class LongestPlay:
     distance: float
     playType: str
     lpId: str
-    gsisId: str
+    esbId: str
     playerName: str
     teamAbbr: str
     positionAbbr: str

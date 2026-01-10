@@ -5,7 +5,7 @@ class BallCarrier:
     speed: float
     playType: str
     bcId: str
-    gsisId: str
+    esbId: str
     playerName: str
     teamAbbr: str
     positionAbbr: str

@@ -1,8 +1,8 @@
 class Player:
     plays = []
     topSpeeds = []
-    def __init__(self,gsisId,shortName,playerName,jerseyNumber,position,teamAbbr,teamId,week,yards,inPlayDist,maxSpeed):
-        self.gsisId = gsisId
+    def __init__(self,esbId,shortName,playerName,jerseyNumber,position,teamAbbr,teamId,week,yards,inPlayDist,maxSpeed):
+        self.esbId = esbId
         self.shortName = shortName
         self.playerName = playerName
         self.jerseyNumber = jerseyNumber

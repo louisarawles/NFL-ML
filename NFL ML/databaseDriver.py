@@ -15,7 +15,7 @@ class DatabaseDriver:
             # Connect to SQLite Database and create a cursor
             self.sqliteConnection = sqlite3.connect(self.sqliteFilename)
             self.cursor = self.sqliteConnection.cursor()
-            print('DB Init')
+            # print('DB Init')
 
         except sqlite3.Error as error:
             print('Error occurred -', error)
@@ -33,14 +33,14 @@ class DatabaseDriver:
     def createDatabase(self):
         queryCreatePlayer = """CREATE TABLE IF NOT EXISTS Player
                                (
-                                   gsisId       VARCHAR,
+                                   esbId       VARCHAR,
                                    shortName    VARCHAR,
                                    playerName   VARCHAR,
                                    jerseyNumber INT,
                                    positionAbbr VARCHAR,
                                    teamAbbr     VARCHAR,
                                    teamId       INT,
-                                   PRIMARY KEY (gsisId)
+                                   PRIMARY KEY (esbId)
                                )"""
 
         queryCreateTeam = """CREATE TABLE IF NOT EXISTS Team
@@ -52,14 +52,17 @@ class DatabaseDriver:
 
         queryCreateGame = """CREATE TABLE IF NOT EXISTS Game
                          (
+                             week INT,
+                             gameDate VARCHAR,
                              gameId        INT,
-                             homeTeamId    INT,
-                             visitorTeamId INT,
+                             homeTeamAbbr VARCHAR,
+                             visitorTeamAbbr VARCHAR,
                              homeScore    INT,
                              visitorScore    INT,
+                             winnerAbbr VARCHAR,
                              PRIMARY KEY (gameId),
-                             FOREIGN KEY (homeTeamId) REFERENCES Team (teamId),
-                             FOREIGN KEY (visitorTeamId) REFERENCES Team (teamId)
+                             FOREIGN KEY (homeTeamAbbr) REFERENCES Team (teamAbbr),
+                             FOREIGN KEY (visitorTeamAbbr) REFERENCES Team (teamAbbr)
                          )"""
 
         queryCreatePlay = """CREATE TABLE IF NOT EXISTS Play
@@ -117,13 +120,13 @@ class DatabaseDriver:
                                   playStatsId VARCHAR NOT NULL,
                                   statId      INT,
                                   playId      INT,
-                                  gsisId      VARCHAR,
+                                  esbId      VARCHAR,
                                   health      VARCHAR,
                                   clubCode    VARCHAR,
                                   playerName  VARCHAR,
                                   yards       INT,
                                   PRIMARY KEY (playStatsId),
-                                  FOREIGN KEY (gsisId) REFERENCES Player (gsisId)
+                                  FOREIGN KEY (esbId) REFERENCES Player (esbId)
                               ) \
                            """
 
@@ -137,7 +140,7 @@ class DatabaseDriver:
                           """
         queryCreateBallCarriers = """CREATE TABLE IF NOT EXISTS BallCarriers(
         bcId VARCHAR NOT NULL,
-        gsisId VARCHAR NOT NULL,
+        esbId VARCHAR NOT NULL,
         playerName VARCHAR,
         teamAbbr VARCHAR,
         positionAbbr VARCHAR,
@@ -148,7 +151,7 @@ class DatabaseDriver:
 
         queryCreateLongestPlays = """CREATE TABLE IF NOT EXISTS LongestPlays(
             lpId VARCHAR NOT NULL,
-            gsisId VARCHAR NOT NULL,
+            esbId VARCHAR NOT NULL,
             playerName VARCHAR,
             teamAbbr VARCHAR,
             positionAbbr VARCHAR,
@@ -157,7 +160,7 @@ class DatabaseDriver:
             playType VARCHAR,
             PRIMARY KEY (lpId))"""
         try:
-            print("Connection established")
+            # print("Connection established")
             self.cursor.execute(queryCreatePlayer)
             self.cursor.execute(queryCreateTeam)
             self.cursor.execute(queryCreateGame)
@@ -174,23 +177,21 @@ class DatabaseDriver:
         if not p:
             return
         try:
-            data = (p.gsisId, p.shortName, p.playerName, p.jerseyNumber, p.positionAbbr, p.teamAbbr, p.teamId)
+            data = (p.esbId, p.shortName, p.playerName, p.jerseyNumber, p.positionAbbr, p.teamAbbr, p.teamId)
 
-            insertQuery = """INSERT OR IGNORE INTO Player(gsisId,shortName,playerName,jerseyNumber,positionAbbr,teamAbbr,teamId)
+            insertQuery = """INSERT OR IGNORE INTO Player(esbId,shortName,playerName,jerseyNumber,positionAbbr,teamAbbr,teamId)
                                   VALUES (?,?,?,?,?,?,?)"""
             self.cursor.execute(insertQuery,data)
         except sqlite3.Error as error:
             self.sqliteConnection.rollback()
             print("Error occurred: ", error)
-        else:
-            self.sqliteConnection.commit()
 
     def addPlayers(self,players):
         if not players:
             return
         try:
             data = [
-                (p.gsisId,
+                (p.esbId,
                  p.shortName,
                  p.playerName,
                  p.jerseyNumber,
@@ -199,32 +200,19 @@ class DatabaseDriver:
                  p.teamId)
                 for p in players
             ]
-            insertQuery = """INSERT OR IGNORE INTO Player(gsisId,shortName,playerName,jerseyNumber,positionAbbr,teamAbbr,teamId)
+            insertQuery = """INSERT OR IGNORE INTO Player(esbId,shortName,playerName,jerseyNumber,positionAbbr,teamAbbr,teamId)
                                   VALUES (?,?,?,?,?,?,?)"""
             self.cursor.executemany(insertQuery,data)
         except sqlite3.Error as error:
             self.sqliteConnection.rollback()
             print("Error occurred: ", error)
-        else:
-            self.sqliteConnection.commit()
-
     def addBallCarriers(self, ballCarriers):
         if not ballCarriers:
             return
         try:
-            # currBallCarriers = self.getBallCarriers_bySpeed()
-            # if len(currBallCarriers) < 1:
-            #     bcs = ballCarriers
-            #     #sortedbc = sorted(ballCarriers, key=lambda bc: bc.speed, reverse=True)
-            # else:
-            #     for bc in ballCarriers:
-            #         if bc not in currBallCarriers:
-            #             currBallCarriers.append(bc)
-            #     bcs = currBallCarriers
-                #sortedbc = sorted(currBallCarriers, key=lambda bc: bc.speed, reverse=True)
             data = [
                 (bc.bcId,
-                bc.gsisId,
+                bc.esbId,
                 bc.playerName,
                 bc.teamAbbr,
                 bc.positionAbbr,
@@ -234,14 +222,12 @@ class DatabaseDriver:
                 for bc in ballCarriers
             ]
             insertQuery = """INSERT OR IGNORE INTO BallCarriers(
-            bcId,gsisId,playerName,teamAbbr,positionAbbr,speed,week,playType) VALUES (?,?,?,?,?,?,?,?)"""
+            bcId,esbId,playerName,teamAbbr,positionAbbr,speed,week,playType) VALUES (?,?,?,?,?,?,?,?)"""
             self.cursor.executemany(insertQuery, data)
 
         except sqlite3.Error as error:
             self.sqliteConnection.rollback()
             print("Error occurred: ", error)
-        else:
-            self.sqliteConnection.commit()
 
     def getBallCarriers_bySpeed(self):
         ballCarriers = []
@@ -252,14 +238,14 @@ class DatabaseDriver:
             rs = self.cursor.execute(query)
             for row in rs:
                 bcId = row[0]
-                gsisId = row[1]
+                esbId = row[1]
                 playerName = row[2]
                 teamAbbr = row[3]
                 positionAbbr = row[4]
                 speed = row[5]
                 week = row[6]
                 playType = row[7]
-                bc = BallCarrier(bcId=bcId,gsisId=gsisId,playerName=playerName,teamAbbr=teamAbbr,positionAbbr=positionAbbr,speed=speed,week=week,playType=playType)
+                bc = BallCarrier(bcId=bcId,esbId=esbId,playerName=playerName,teamAbbr=teamAbbr,positionAbbr=positionAbbr,speed=speed,week=week,playType=playType)
                 #print(bc)
                 ballCarriers.append(bc)
         except sqlite3.Error as error:
@@ -269,14 +255,13 @@ class DatabaseDriver:
             return ballCarriers
 
     def addLongestPlays(self, plays):
-        longestPlays = []
         if not plays:
             return
         try:
             data = [
                 (
                 p.lpId,
-                p.gsisId,
+                p.esbId,
                 p.playerName,
                 p.teamAbbr,
                 p.positionAbbr,
@@ -285,14 +270,12 @@ class DatabaseDriver:
                 p.playType)
                 for p in plays
             ]
-            insertQuery = """INSERT OR IGNORE INTO LongestPlays(lpId,gsisId,playerName,teamAbbr,positionAbbr,distance,week,playType)
+            insertQuery = """INSERT OR IGNORE INTO LongestPlays(lpId,esbId,playerName,teamAbbr,positionAbbr,distance,week,playType)
                           VALUES (?,?,?,?,?,?,?,?)"""
             self.cursor.executemany(insertQuery, data)
         except sqlite3.Error as error:
             self.sqliteConnection.rollback()
             print("Error occurred: ", error)
-        else:
-            self.sqliteConnection.commit()
 
     def addTeams(self,teams):
         if not teams:
@@ -308,19 +291,17 @@ class DatabaseDriver:
         except sqlite3.Error as error:
             self.sqliteConnection.rollback()
             print("Error occurred: ", error)
-        else:
-            self.sqliteConnection.commit()
 
-    def addGames(self,game):
-        if not game:
+    def addGames(self,games):
+        if not games:
             return
         try:
             data = [
-                (g.gameId, g.homeTeamId, g.visitorTeamId, g.homeScore, g.visitorScore)
-                for g in game
+                (g.week,g.gameDate,g.gameId, g.homeTeamAbbr, g.visitorTeamAbbr, g.homeScore, g.visitorScore,g.winnerAbbr)
+                for g in games
             ]
-            insertQuery = """INSERT INTO Game(gameId, homeTeamId, visitorTeamId, homeScore, visitorScore)
-                                    VALUES (?,?,?,?,?)"""
+            insertQuery = """INSERT INTO Game(week, gameDate, gameId, homeTeamAbbr, visitorTeamAbbr, homeScore, visitorScore, winnerAbbr)
+                                    VALUES (?,?,?,?,?,?,?,?)"""
             self.cursor.executemany(insertQuery, data)
         except sqlite3.Error as error:
             self.sqliteConnection.rollback()
@@ -351,8 +332,6 @@ class DatabaseDriver:
         except sqlite3.Error as error:
             self.sqliteConnection.rollback()
             print("Error occurred: ", error)
-        else:
-            self.sqliteConnection.commit()
 
     def addPlayStats(self,playStats):
         if not playStats:
@@ -362,18 +341,16 @@ class DatabaseDriver:
                 (p.playStatsId,
                  p.statId,
                  p.playId,
-                 p.gsisId,
+                 p.esbId,
                  p.health,
                  p.clubCode,
                  p.playerName,
                  p.yards)
                 for p in playStats
             ]
-            insertQuery = """INSERT INTO PlayStats(playStatsId, statId, playId, gsisId, health, clubCode, 
+            insertQuery = """INSERT INTO PlayStats(playStatsId, statId, playId, esbId, health, clubCode, 
             playerName, yards) VALUES (?,?,?,?,?,?,?,?)"""
             self.cursor.executemany(insertQuery, data)
         except sqlite3.Error as error:
             self.sqliteConnection.rollback()
             print("Error occurred: ", error)
-        else:
-            self.sqliteConnection.commit()
