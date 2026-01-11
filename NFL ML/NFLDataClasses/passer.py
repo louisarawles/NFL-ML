@@ -5,6 +5,7 @@ class Passer:
     gameId: int
     esbId: str
     playerName: str
+    teamAbbr: str
     avg_completion_pct: float
     avg_yds: float
     avg_qbRating: float

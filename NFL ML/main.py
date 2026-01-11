@@ -2,9 +2,6 @@
 
 # Press ⌃R to execute it or replace it with your code.
 # Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
-from NFLDataClasses.ballCarrier import BallCarrier
-from NFLDataClasses.longestPlay import LongestPlay
-from NFLDataClasses.player import Player
 
 from NFLLoaders import NFLLoader
 

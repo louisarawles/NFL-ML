@@ -2,7 +2,8 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 
-def show_zone_performance(playerName, zones):
+def show_zone_performance(game, passer):
+    zones = passer.zones
     # make the field
     rows = 4
     yd_zones = ["20Plus", "10To19", "losTo9", "behindLOS",]
@@ -69,6 +70,13 @@ def show_zone_performance(playerName, zones):
                 labels[i,j] = "N/A"
             ax.text(j, i, labels[i, j],
                            ha='center', va='center', color='black')
-    ax.set_title(f"{playerName} QB Rating by Passing Zone")
+
+    playerName = passer.playerName
+    date = game.gameDate
+    team = passer.teamAbbr
+    comp = game.homeTeamAbbr
+    if comp == team:
+        comp = game.visitorTeamAbbr
+    ax.set_title(f"v. {comp} {date} - {team} {playerName} QB Rating by Passing Zone")
     fig.tight_layout()
     plt.show()
