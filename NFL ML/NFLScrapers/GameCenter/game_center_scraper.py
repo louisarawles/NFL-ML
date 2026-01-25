@@ -3,7 +3,8 @@ import requests
 import NFLDataVis.zone_plots
 from NFLScrapers.GameCenter import encapsulate_game_stats as encaps
 from NFLDataClasses.game import Game
-
+from NFLDataClasses.gameStat import GameStat
+from avg import avg
 
 def get_url_games():
     url = 'https://nextgenstats.nfl.com/api/league/schedule?season=2025'
@@ -64,12 +65,7 @@ def get_url_gameStats(gameId):
     url = f'https://nextgenstats.nfl.com/api/gamecenter/overview?gameId={gameId}'
     return url
 
-# get_gameStats violates every good principle of design but I need it out of main
-# so this is what we've got for now
-def get_gameStats(gs_data, game):
-    # game id
-    g_id = game.gameId
-
+def get_gameTargets(gs_data):
     # passers
     passers = gs_data.get('passers')
     # rushers
@@ -88,126 +84,177 @@ def get_gameStats(gs_data, game):
     timeToSackLeaders = leaders.get('timeToSackLeaders')
     # pass distance leaders
     passDistanceLeaders = leaders.get('passDistanceLeaders')
+    return passers, rushers, passRushers, receivers, leaders, speedLeaders, timeToSackLeaders, passDistanceLeaders
 
-    # home game stats
-    ht = game.homeTeamAbbr
-    home_passer = passers.get('home')
-    print(f"{ht} passer (QB): ", home_passer)
-    h_passer = encaps.encapsulate_passerZoneStats(home_passer)
+# get_gameStats violates every good principle of design but I need it out of main
+# so this is what we've got for now
+# fyi i dont use any of the lists of the data classes but if i wanted to later ig
+def get_gameStats(gs_data, game, homeVisitor='home'):
+    ##### declare variables #####
+    ## game id
+    g_id = game.gameId
+    ## game avgs
+    pr_avg = 0.0
+    r_avg = 0.0
+    ## QB variables declared & instantiated simultaneously
+    ## rusher variables:
+    distance = 0.0
+    avgDistanceList = []
+    avgTimeToLosList = []
+    ## pass rusher variables
+    blitzCount = 0
+    avgSeparationToQbList = []
+    tackles = 0
+    assists = 0
+    sacks = 0
+    forcedFumbles = 0
+    ## receiver variables:
+    rec_yards = 0
+    avgAirYardsList = []
+    avgSeparationList = []
+    receptions = 0
+    ## leaders variables declared & instantiated simultaneously
+    ##### END declare variables #####
 
-    home_rushers = rushers.get('home')
-    hrs = []
-    for hr in home_rushers:
-        h_rusher = encaps.encapsulate_rusherZoneStats(g_id, hr)
-        hrs.append(h_rusher)
-    for each in hrs:
-        print(f"{ht} rusher: ", each)
+    ##### handle invalid input errors #####
+    if homeVisitor != 'home' and homeVisitor != 'visitor':
+        print(f"Invalid home / visitor status for {homeVisitor}.")
+        return None
+    if game is None:
+        print(f"Invalid game stats data for {game}.")
+        return None
+    err_GameStats = "Invalid game stats data."
+    ##### END input error handling #####
 
-    home_passRushers = passRushers.get('home')
-    hprs = []
-    for hpr in home_passRushers:
-        hp_rusher = encaps.encapsulate_passRusherZoneStats(g_id, hpr)
-        hprs.append(hp_rusher)
-    for each in hprs:
-        print(f"{ht} passRusher: ", each)
+    ##### get game targets #####
+    passers, rushers, passRushers, receivers, leaders, speedLeaders, timeToSackLeaders, passDistanceLeaders = get_gameTargets(gs_data)
+    # game avgs
+    pr_avg = passRushers.get('avg')
+    r_avg = receivers.get('avg')
+    ##### END get game targets #####
 
-    home_receivers = receivers.get('home')
-    hrecs = []
-    for hrec in home_receivers:
-        h_receiver = encaps.encapsulate_receiverZoneStats(g_id, hrec)
-        hrecs.append(h_receiver)
-    for each in hrecs:
-        print(f"{ht} receiver: ", each)
+    ##### handle game target errors #####
+    if passers is None or rushers is None or passRushers is None or receivers is None or leaders is None or speedLeaders is None or timeToSackLeaders is None or passDistanceLeaders is None:
+        print(err_GameStats)
+        return None
+    ##### END handle game target errors #####
 
-    home_speedLeader = encaps.encapsulate_speedLeader(g_id, speedLeaders.get('home'))
-    print(f"{ht} speed leader: ", home_speedLeader)
-    home_timeToSackLeader = encaps.encapsulate_timeToSackLeader(g_id, timeToSackLeaders.get('home'))
-    print(f"{ht} time-to-sack leader: ", home_timeToSackLeader)
-    home_passDistanceLeader = encaps.encapsulate_passDistanceLeader(g_id, passDistanceLeaders.get('home'))
-    print(f"{ht} pass distance leader: ", home_passDistanceLeader)
+    ##### home or visitor #####
+    home = True
+    team = game.homeTeamAbbr
+    if homeVisitor == 'visitor':
+        team = game.visitorTeamAbbr
+        home = False
+    ##### home or visitor #####
 
-    # visitor game stats
-    vt = game.visitorTeamAbbr
+    ##### meta game data #####
+    gs_id = f"{g_id}-{team}"
+    outcome = "LOSS"
+    if team == game.winnerAbbr:
+        outcome = "WIN"
+    ##### END meta game data #####
 
-    visitor_passer = passers.get('visitor')
-    print(f"{vt} passer (QB): ", visitor_passer)
-    v_passer = encaps.encapsulate_passerZoneStats(visitor_passer)
+    ##### encaps QB #####
+    QB = passers.get(homeVisitor)
+    QB = encaps.encapsulate_passerZoneStats(QB)
+    zones = QB.zones
+    ABOVE = 0
+    for zone in zones:
+        if zone.get('qbRatingSuccessLevel') == 'ABOVE':
+            ABOVE += 1
+    totalCompletions = QB.total_completions
+    QBavgRating = QB.avg_qbRating
+    ##### END encaps QB #####
 
-    visitor_rushers = rushers.get('visitor')
-    vrs = []
-    for vr in visitor_rushers:
-        v_rusher = encaps.encapsulate_rusherZoneStats(g_id, vr)
-        vrs.append(v_rusher)
-    for each in vrs:
-        print(f"{vt} rusher: ", each)
+    ##### encaps team_rushers #####
+    team_rushers = rushers.get(homeVisitor)
+    rs = []
+    for r in team_rushers:
+        rusher = encaps.encapsulate_rusherZoneStats(g_id, r)
+        rs.append(rusher)
+        if not type(rusher) is str:
+            distance += int(rusher.distance)
+            avgDistanceList.append(rusher.avgDistance)
+            avgTimeToLosList.append(rusher.avgTimeToLos)
+    ## get avgs
+    avgDistance = avg(avgDistanceList)
+    avgTimeToLos = avg(avgTimeToLosList)
+    ##### END encaps team_rushers #####
 
-    visitor_passRushers = passRushers.get('visitor')
-    vprs = []
-    for vpr in visitor_passRushers:
-        vp_rusher = encaps.encapsulate_passRusherZoneStats(g_id, vpr)
-        vprs.append(vp_rusher)
-    for each in vprs:
-        print(f"{vt} passRusher: ", each)
+    ##### encaps pass rushers #####
+    pass_rushers = passRushers.get(f"{homeVisitor}")
+    prs = []
+    for pr in pass_rushers:
+        prusher = encaps.encapsulate_passRusherZoneStats(g_id, pr)
+        prs.append(prusher)
+        blitzCount += prusher.blitzCount
+        avgSeparationToQbList.append(prusher.avgSeparationToQb)
+        tackles += prusher.tackles
+        assists += prusher.assists
+        sacks += prusher.sacks
+        forcedFumbles += prusher.forcedFumbles
+    ## get avg
+    avgSepToQB = avg(avgSeparationToQbList)
+    ##### END encaps pass rushers #####
 
-    visitor_receivers = receivers.get('visitor')
-    vrecs = []
-    for vrec in visitor_receivers:
-        v_receiver = encaps.encapsulate_receiverZoneStats(g_id, vrec)
-        vrecs.append(v_receiver)
-    for each in vrecs:
-        print(f"{vt} receiver: ", each)
+    ##### encaps receivers #####
+    receivers = receivers.get(homeVisitor)
+    recs = []
+    for rec in receivers:
+        receiver = encaps.encapsulate_receiverZoneStats(g_id, rec)
+        recs.append(receiver)
+    ## get avgs
+    avgAirYards = avg(avgAirYardsList)
+    avgSep = avg(avgSeparationList)
+    ##### END encaps receivers #####
 
-    visitor_speedLeader = encaps.encapsulate_speedLeader(g_id, speedLeaders.get('visitor'))
-    print(f"{vt} speed leader: ", visitor_speedLeader)
-    visitor_timeToSackLeader = encaps.encapsulate_timeToSackLeader(g_id, timeToSackLeaders.get('visitor'))
-    print(f"{vt} time-to-sack leader: ", visitor_timeToSackLeader)
-    visitor_passDistanceLeader = encaps.encapsulate_passDistanceLeader(g_id, passDistanceLeaders.get('visitor'))
-    print(f"{vt} pass distance leader: ", visitor_passDistanceLeader)
+    ##### encaps leaders #####
+    spl = speedLeaders.get(homeVisitor)
+    if spl is not None:
+        speedLeader = encaps.encapsulate_speedLeader(g_id, spl)
+        if speedLeader is not None:
+            maxSpeed = speedLeader.get('maxSpeed')
+        else:
+            maxSpeed = 0
+    else:
+        maxSpeed = 0
 
-def get_zonePlots(gs_data,game):
-    passers = gs_data.get('passers')
-    # home QB
-    home_passer = passers.get('home')
-    print(f"{game.homeTeamAbbr} passer (QB): ", home_passer)
-    h_passer = encaps.encapsulate_passerZoneStats(home_passer)
-    # visitor QB
-    visitor_passer = passers.get('visitor')
-    print(f"{game.visitorTeamAbbr} passer (QB): ", visitor_passer)
-    v_passer = encaps.encapsulate_passerZoneStats(visitor_passer)
-    # show zone plot for QBs
-    h_zones = h_passer.zones
-    NFLDataVis.zone_plots.show_zone_performance(game, h_passer)
-    v_zones = v_passer.zones
-    NFLDataVis.zone_plots.show_zone_performance(game, v_passer)
+    tsl = timeToSackLeaders.get(homeVisitor)
+    if tsl is not None:
+        timeToSackLeader = encaps.encapsulate_timeToSackLeader(g_id, tsl)
+        if timeToSackLeader is not None:
+            timeToTackle = timeToSackLeader.get('timeToTackle')
+        else:
+            timeToTackle = 0
+    else:
+        timeToTackle = 0
+    pdl = passDistanceLeaders.get(homeVisitor)
+    passDistanceLeader = encaps.encapsulate_passDistanceLeader(g_id, pdl)
+    if pdl is not None:
+        if passDistanceLeader is not None:
+            airDistance = passDistanceLeader.get('airDistance')
+        else:
+            airDistance = 0
+    else:
+        airDistance = 0
+    ##### END encaps leaders #####
 
-# if __name__ == '__main__':
-#     games_url = get_url_games()
-#     headers = {
-#         "User-Agent": "Mozilla/5.0",
-#         "Accept": "application/json, text/plain, */*",
-#         "Referer": "https://nextgenstats.nfl.com/stats/game-center-index",
-#     }
-#     # params = get_params(20,2,1)
-#     # idk how to use params yet so this just loads er up
-#     # tbh would only need params if i wanted previous seasons
-#
-#     data_games = get_data(games_url,headers)
-#     games, unfinished_games = get_games(data_games)
-#
-#     # im just using this specific game for testing purposes
-#     # and because go Bears and go comeback season baby
-#
-#     bears_packers = gf.findGames(games,'CHI','GB')
-#
-#     for game in bears_packers:
-#         print(game)
-#         g_id = game.gameId
-#         gs_url = get_url_gameStats(g_id)
-#         gs_data = get_data(gs_url, headers)
-#
-#         print("Home Team: ", game.homeTeamAbbr)
-#         print("Visitor Team: ", game.visitorTeamAbbr)
-#         print(f"Score: {game.homeTeamAbbr}: {game.homeScore} - {game.visitorTeamAbbr}: {game.visitorScore}")
-#
-#         get_gameStats(gs_data)
-#         get_zonePlots(gs_data)
+    ##### print section #####
+    # for each in rs:
+    #     print(f"{team} team_rushers: ", each)
+    # for each in prs:
+    #     print(f"{team} passRusher: ", each)
+    # for each in recs:
+    #     print(f"{team} receiver: ", each)
+    # print(f"{team} speed leader: ", speedLeader)
+    # print(f"{team} time-to-sack leader: ", timeToSackLeader)
+    # print(f"{team} pass distance leader: ", passDistanceLeader)
+    ##### END print section #####
+
+    gameStat = GameStat(gameStatId=gs_id,gameId=g_id,teamAbbr=team,
+                        home=home,outcome=outcome,QBABOVEzones=ABOVE,QBtotalCompletions=totalCompletions,
+                        QBavgRating=QBavgRating,distance=distance,avgDistance=avgDistance,avgTimeToLos=avgTimeToLos,
+                        blitzCount=blitzCount,avgSepToQB=avgSepToQB,tackles=tackles,assists=assists,sacks=sacks,forcedFumbles=forcedFumbles,
+                        recYards=rec_yards,avgAirYards=avgAirYards,avgSep=avgSep,receptions=receptions,
+                        maxSpeed=maxSpeed,timeToTackle=timeToTackle,airDistance=airDistance)
+    return gameStat

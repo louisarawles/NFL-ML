@@ -50,20 +50,49 @@ class DatabaseDriver:
                              PRIMARY KEY (teamId)
                          )"""
 
-        queryCreateGame = """CREATE TABLE IF NOT EXISTS Game
-                         (
-                             week INT,
-                             gameDate VARCHAR,
-                             gameId        INT,
-                             homeTeamAbbr VARCHAR,
-                             visitorTeamAbbr VARCHAR,
-                             homeScore    INT,
-                             visitorScore    INT,
-                             winnerAbbr VARCHAR,
-                             PRIMARY KEY (gameId),
-                             FOREIGN KEY (homeTeamAbbr) REFERENCES Team (teamAbbr),
-                             FOREIGN KEY (visitorTeamAbbr) REFERENCES Team (teamAbbr)
-                         )"""
+        # queryCreateGame = """CREATE TABLE IF NOT EXISTS Game
+        #                  (
+        #                      week INT,
+        #                      gameDate VARCHAR,
+        #                      gameId        INT,
+        #                      homeTeamAbbr VARCHAR,
+        #                      visitorTeamAbbr VARCHAR,
+        #                      homeScore    INT,
+        #                      visitorScore    INT,
+        #                      winnerAbbr VARCHAR,
+        #                      PRIMARY KEY (gameId),
+        #                      FOREIGN KEY (homeTeamAbbr) REFERENCES Team (teamAbbr),
+        #                      FOREIGN KEY (visitorTeamAbbr) REFERENCES Team (teamAbbr)
+        #                  )"""
+
+        queryCreateGameStats = """CREATE TABLE IF NOT EXISTS GameStats(
+            gameStatId VARCHAR NOT NULL,
+            gameId INT,
+            teamAbbr VARCHAR,
+            home BOOLEAN,
+            outcome VARCHAR,
+            QBABOVEzones INT,
+            QBtotalCompletions INT,
+            QBavgRating FLOAT,
+            distance FLOAT,
+            avgDistance FLOAT,
+            avgTimeToLos FLOAT,
+            blitzCount INT,
+            avgSepToQB FLOAT,
+            tackles INT,
+            assists INT,
+            sacks INT,
+            forcedFumbles INT,
+            recYards INT,
+            avgAirYards FLOAT,
+            avgSep FLOAT,
+            receptions INT,
+            maxSpeed FLOAT,
+            timeToTackle FLOAT,
+            airDistance FLOAT,
+            PRIMARY KEY (gameStatId),
+            FOREIGN KEY (gameId) REFERENCES Game (gameId)
+                                  )"""
 
         queryCreatePlay = """CREATE TABLE IF NOT EXISTS Play
                          (
@@ -163,7 +192,8 @@ class DatabaseDriver:
             # print("Connection established")
             self.cursor.execute(queryCreatePlayer)
             self.cursor.execute(queryCreateTeam)
-            self.cursor.execute(queryCreateGame)
+            # self.cursor.execute(queryCreateGame)
+            self.cursor.execute(queryCreateGameStats)
             self.cursor.execute(queryCreatePlay)
             self.cursor.execute(queryCreatePlayStats)
             self.cursor.execute(queryCreatePlayType)
@@ -306,6 +336,98 @@ class DatabaseDriver:
         except sqlite3.Error as error:
             self.sqliteConnection.rollback()
             print("Error occurred: ", error)
+
+    def addGameStats(self,gs):
+        if not gs:
+            return
+        try:
+            data = (
+                gs.gameStatId,
+            gs.gameId,
+            gs.teamAbbr,
+            gs.home,
+            gs.outcome,
+            gs.QBABOVEzones,
+            gs.QBtotalCompletions,
+            gs.QBavgRating,
+            gs.distance,
+            gs.avgDistance,
+            gs.avgTimeToLos,
+            gs.blitzCount,
+            gs.avgSepToQB,
+            gs.tackles,
+            gs.assists,
+            gs.sacks,
+            gs.forcedFumbles,
+            gs.recYards,
+            gs.avgAirYards,
+            gs.avgSep,
+            gs.receptions,
+            gs.maxSpeed,
+            gs.timeToTackle,
+            gs.airDistance
+                    )
+
+            insertQuery = """INSERT OR IGNORE INTO GameStats(
+            gameStatId,
+            gameId,
+            teamAbbr,
+            home,
+            outcome,
+            QBABOVEzones,
+            QBtotalCompletions,
+            QBavgRating,
+            distance,
+            avgDistance,
+            avgTimeToLos,
+            blitzCount,
+            avgSepToQB,
+            tackles,
+            assists,
+            sacks,
+            forcedFumbles,
+            recYards,
+            avgAirYards,
+            avgSep,
+            receptions,
+            maxSpeed,
+            timeToTackle,
+            airDistance)
+                                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"""
+            self.cursor.execute(insertQuery, data)
+        except sqlite3.Error as error:
+            self.sqliteConnection.rollback()
+            print("Error occurred: ", error)
+
+    def getGameStats_ALL(self):
+        try:
+            query = """SELECT * FROM GameStats"""
+            rs = self.cursor.execute(query)
+        except sqlite3.Error as error:
+            self.sqliteConnection.rollback()
+            print("Error occurred: ", error)
+        else:
+            return rs
+
+    # def getGameStats_FEATURES(self,features):
+    #     try:
+    #         query = f"""SELECT {features} FROM GameStats"""
+    #         features_rs = self.cursor.execute(query)
+    #     except sqlite3.Error as error:
+    #         self.sqliteConnection.rollback()
+    #         print("Error occurred: ", error)
+    #     else:
+    #         return features_rs
+    #
+    # def getGameStats_TARGET(self,target):
+    #     try:
+    #         query = f"""SELECT {target} FROM GameStats"""
+    #         target_rs = self.cursor.execute(query)
+    #     except sqlite3.Error as error:
+    #         self.sqliteConnection.rollback()
+    #         print("Error occurred: ", error)
+    #     else:
+    #         return target_rs
 
     def addPlays(self,plays):
         if not plays:

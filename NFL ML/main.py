@@ -8,7 +8,7 @@ from NFLLoaders import NFLLoader
 from NFLScrapers import web_scraper as ws
 from NFLScrapers import longestplay_scraper as lsp
 from NFLScrapers import speed_ballcarrier_scraper as bc
-from NFLScrapers import game_center_scraper as gc
+from NFLScrapers.GameCenter import game_center_scraper as gc
 
 from typing import Any
 

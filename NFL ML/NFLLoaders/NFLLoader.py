@@ -1,7 +1,7 @@
 from databaseDriver import DatabaseDriver
 
 def get_file():
-    file = "NFL_stats.sqlite"
+    file = "/Users/louisarawles/Desktop/Software Projects/NFL ML/NFL_stats.sqlite"
     return file
 
 def load_players(players):
@@ -37,5 +37,14 @@ def load_games(games):
     db.connect()
     db.createDatabase()
     db.addGames(games)
+    db.commit()
+    db.disconnect()
+
+def load_gameStats(gameStats):
+    file = get_file()
+    db = DatabaseDriver(file)
+    db.connect()
+    db.createDatabase()
+    db.addGameStats(gameStats)
     db.commit()
     db.disconnect()

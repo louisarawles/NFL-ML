@@ -1,6 +1,7 @@
 from NFLScrapers.GameCenter import game_finder as gf
 
-from NFLScrapers.GameCenter.game_center_scraper import get_url_games, get_data, get_games, get_url_gameStats, get_gameStats, get_zonePlots
+from NFLScrapers.GameCenter.game_center_scraper import get_url_games, get_data, get_games, get_url_gameStats, get_gameStats
+from NFLDataVis.zone_plots import show_zone_performance
 if __name__ == '__main__':
     games_url = get_url_games()
     headers = {
@@ -32,5 +33,10 @@ if __name__ == '__main__':
         print("Visitor Team: ", game.visitorTeamAbbr)
         print(f"Score: {game.homeTeamAbbr}: {game.homeScore} - {game.visitorTeamAbbr}: {game.visitorScore}")
 
-        get_gameStats(gs_data, game)
-        get_zonePlots(gs_data, game)
+        gameStats = get_gameStats(gs_data, game)
+
+        passers = gs_data.get('passers')
+        h_passer = passers.get('home')
+        v_passer = passers.get('visitor')
+        show_zone_performance(game,h_passer)
+        show_zone_performance(game,v_passer)
