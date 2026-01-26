@@ -23,6 +23,8 @@ analytics via tree-based ML classifiers.
 - Matplotlib, NumPy, Pandas - Analytics
 - Scikit-learn - Decision tree
 - Requests - RESTful API integration
+### Prerequisites
+- Create sqlite database in root repository with filename "NFL_stats.sqlite"
 
 ---
 
