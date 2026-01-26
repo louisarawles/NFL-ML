@@ -1,6 +1,4 @@
 import requests
-
-import NFLDataVis.zone_plots
 from NFLScrapers.GameCenter import encapsulate_game_stats as encaps
 from NFLDataClasses.game import Game
 from NFLDataClasses.gameStat import GameStat

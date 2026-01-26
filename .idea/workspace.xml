@@ -2,51 +2,92 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="01e70195-cbfc-444b-80ce-984394a77c09" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/Software Projects.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AcademicProgressGuide/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AcademicProgressGuide/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AcademicProgressGuide/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AcademicProgressGuide/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AcademicProgressGuide/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AcademicProgressGuide/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AcademicProgressGuide/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AcademicProgressGuide/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AcademicProgressGuide/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AcademicProgressGuide/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AcademicProgressGuide/settings.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AcademicProgressGuide/src/main/java/edu/virginia/cs/AcademicProgressGuide/Configuration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AcademicProgressGuide/src/main/java/edu/virginia/cs/AcademicProgressGuide/DatabaseDriver.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AcademicProgressGuide/src/main/java/edu/virginia/cs/AcademicProgressGuide/PopulateDatabase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AcademicProgressGuide/src/main/java/edu/virginia/cs/AcademicProgressGuide/WebServiceReader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AcademicProgressGuide/src/main/resources/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CourseScheduler/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CourseScheduler/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CourseScheduler/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CourseScheduler/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CourseScheduler/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CourseScheduler/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CourseScheduler/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CourseScheduler/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CourseScheduler/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CourseScheduler/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CourseScheduler/settings.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NFL_stats.sqlite" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gameStats_plot.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Software Projects.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Software Projects.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/Examples/EX_game_center_DALvLAR.py" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/EX_game_center_DALvLAR.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/Examples/Scraper Ex/EX_PHI.py" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/Scraper Ex/EX_PHI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/Examples/Scraper Ex/EX_game_center_vis_CHIvGB.py" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/Scraper Ex/EX_game_center_vis_CHIvGB.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/Examples/Scraper Ex/EX_playoffs.py" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/Scraper Ex/EX_playoffs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/NFLDataClasses/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/NFLDataClasses/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/NFLDataClasses/ballCarrier.py" beforeDir="false" afterPath="$PROJECT_DIR$/NFLDataClasses/ballCarrier.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/NFLDataClasses/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/NFLDataClasses/game.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/NFLDataClasses/gameStat.py" beforeDir="false" afterPath="$PROJECT_DIR$/NFLDataClasses/gameStat.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/NFLDataClasses/longestPlay.py" beforeDir="false" afterPath="$PROJECT_DIR$/NFLDataClasses/longestPlay.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/NFLDataClasses/passRusher.py" beforeDir="false" afterPath="$PROJECT_DIR$/NFLDataClasses/passRusher.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/NFLDataClasses/passer.py" beforeDir="false" afterPath="$PROJECT_DIR$/NFLDataClasses/passer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/NFLDataClasses/play.py" beforeDir="false" afterPath="$PROJECT_DIR$/NFLDataClasses/play.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/NFLDataClasses/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/NFLDataClasses/player.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/NFLDataClasses/receiver.py" beforeDir="false" afterPath="$PROJECT_DIR$/NFLDataClasses/receiver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/NFLDataClasses/rusher.py" beforeDir="false" afterPath="$PROJECT_DIR$/NFLDataClasses/rusher.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/NFLDataClasses/team.py" beforeDir="false" afterPath="$PROJECT_DIR$/NFLDataClasses/team.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/NFLDataVis/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/NFLDataVis/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/NFLDataVis/zone_plots.py" beforeDir="false" afterPath="$PROJECT_DIR$/NFLDataVis/zone_plots.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/NFLLoaders/NFLLoader.py" beforeDir="false" afterPath="$PROJECT_DIR$/NFLLoaders/NFLLoader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/NFLLoaders/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/NFLLoaders/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/NFLLoaders/gameStats_all_games.py" beforeDir="false" afterPath="$PROJECT_DIR$/NFLScrapers/GameCenter/gameStats_all_games.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/NFLScrapers/GameCenter/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/NFLScrapers/GameCenter/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/NFLScrapers/GameCenter/encapsulate_game_stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/NFLScrapers/GameCenter/encapsulate_game_stats.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/NFLScrapers/GameCenter/game_center_scraper.py" beforeDir="false" afterPath="$PROJECT_DIR$/NFLScrapers/GameCenter/game_center_scraper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/NFLScrapers/GameCenter/game_finder.py" beforeDir="false" afterPath="$PROJECT_DIR$/NFLScrapers/GameCenter/game_finder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/NFLScrapers/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/NFLScrapers/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/NFLScrapers/dist_tackle_scraper.py" beforeDir="false" afterPath="$PROJECT_DIR$/NFLScrapers/dist_tackle_scraper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/NFLScrapers/ery_scraper.py" beforeDir="false" afterPath="$PROJECT_DIR$/NFLScrapers/ery_scraper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/NFLScrapers/improbable_completion_scraper.py" beforeDir="false" afterPath="$PROJECT_DIR$/NFLScrapers/improbable_completion_scraper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/NFLScrapers/longestplay_scraper.py" beforeDir="false" afterPath="$PROJECT_DIR$/NFLScrapers/longestplay_scraper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/NFLScrapers/speed_ballcarrier_scraper.py" beforeDir="false" afterPath="$PROJECT_DIR$/NFLScrapers/speed_ballcarrier_scraper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/NFLScrapers/timeSack_scraper.py" beforeDir="false" afterPath="$PROJECT_DIR$/NFLScrapers/timeSack_scraper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/NFLScrapers/web_scraper.py" beforeDir="false" afterPath="$PROJECT_DIR$/NFLScrapers/web_scraper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/TESTS/TEST_game_center_scraper.py" beforeDir="false" afterPath="$PROJECT_DIR$/TESTS/TEST_game_center_scraper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/avg.py" beforeDir="false" afterPath="$PROJECT_DIR$/avg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/databaseDriver.py" beforeDir="false" afterPath="$PROJECT_DIR$/databaseDriver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/decisionTree_sql.py" beforeDir="false" afterPath="$PROJECT_DIR$/decisionTree_sql.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL ML/top_plays.py" beforeDir="false" afterPath="$PROJECT_DIR$/top_plays.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL Stats ML/.idea/CourseMatcher.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL Stats ML/.idea/modules/untitled.main.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL Stats ML/.idea/modules/untitled.test.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/NFL Stats ML/decisionTree.py" beforeDir="false" afterPath="$PROJECT_DIR$/ARCHIVE/decisionTree_generic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FlaskConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform)); sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo, NoAppException&#10;for module in [&quot;main.py&quot;, &quot;wsgi.py&quot;, &quot;app.py&quot;]:&#10;    try: locals().update(ScriptInfo(app_import_path=module, create_app=None).load_app().make_shell_context()); print(&quot;\nFlask App: %s&quot; % app.import_name); break&#10;    except NoAppException: pass">
+    <envs>
+      <env key="FLASK_APP" value="app" />
+    </envs>
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform)); sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo, NoAppException&#10;for module in [&quot;main.py&quot;, &quot;wsgi.py&quot;, &quot;app.py&quot;]:&#10;    try: locals().update(ScriptInfo(app_import_path=module, create_app=None).load_app().make_shell_context()); print(&quot;\nFlask App: %s&quot; % app.import_name); break&#10;    except NoAppException: pass" />
+    <option name="myEnvs">
+      <map>
+        <entry key="FLASK_APP" value="app" />
+      </map>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 5
-}]]></component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;louisarawles&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/louisarawles/NFL-ML&quot;,
+    &quot;accountId&quot;: &quot;f5a57616-a800-462b-b16a-929aee83a13c&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="36qyJOZtoUhgXERzqzc67x2f1FO" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -56,11 +97,21 @@
   "keyToString": {
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/louisarawles/Desktop/NFLML",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -77,6 +128,9 @@
       <option name="presentableId" value="Default" />
       <updated>1765748323630</updated>
       <workItem from="1765748324781" duration="57000" />
+      <workItem from="1769390050012" duration="13000" />
+      <workItem from="1769390122869" duration="79000" />
+      <workItem from="1769390485386" duration="285000" />
     </task>
     <servers />
   </component>

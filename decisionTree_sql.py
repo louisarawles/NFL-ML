@@ -1,7 +1,5 @@
 import pandas as pd
-from sqlalchemy import create_engine
 import sqlite3
-from databaseDriver import DatabaseDriver
 from sklearn.metrics import confusion_matrix, accuracy_score, classification_report
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier, plot_tree
