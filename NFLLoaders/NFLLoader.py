@@ -1,7 +1,7 @@
 from databaseDriver import DatabaseDriver
 
 def get_file():
-    file = "/Users/louisarawles/Desktop/Software Projects/NFL ML/NFL_stats.sqlite"
+    file = "/Users/louisarawles/Desktop/NFL ML/NFL_stats.sqlite"
     return file
 
 def load_players(players):
