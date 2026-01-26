@@ -1,26 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="01e70195-cbfc-444b-80ce-984394a77c09" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Software Projects.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/NFL ML.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NFL ML/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NFL ML/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NFL ML/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NFL ML/.idea/NFL ML.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NFL ML/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NFL ML/.idea/data_source_mapping.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/data_source_mapping.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NFL ML/.idea/db-forest-config.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NFL ML/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NFL ML/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NFL ML/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NFL ML/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NFL ML/.idea/sqldialects.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NFL ML/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NFLLoaders/NFLLoader.py" beforeDir="false" afterPath="$PROJECT_DIR$/NFLLoaders/NFLLoader.py" afterDir="false" />
-    </list>
+    <list default="true" id="01e70195-cbfc-444b-80ce-984394a77c09" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -98,7 +79,7 @@
       <workItem from="1769390050012" duration="13000" />
       <workItem from="1769390122869" duration="79000" />
       <workItem from="1769390485386" duration="526000" />
-      <workItem from="1769391077210" duration="125000" />
+      <workItem from="1769391077210" duration="479000" />
     </task>
     <servers />
   </component>
