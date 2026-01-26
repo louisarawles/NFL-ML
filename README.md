@@ -1,105 +1,40 @@
-# Louisa Rawles -- Portfolio
+# Louisa Rawles -- NFL ML
 
 ## Purpose
-
-I designed this portfolio to showcase my academic career, co-curriculars and experiences, as well as my personal software projects. The website is frequently updated to include new projects I have undertaken and experiences I have partaken in.
-
----
-
-## Prerequisites
-
-[Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [NPM](http://npmjs.com)) installed on your computer.
-
-```
-node@v16.4.2 or higher
-npm@7.18.1 or higher
-git@2.30.1 or higher
-```
-
-Also, you can use [Yarn](https://yarnpkg.com/) instead of NPM ☝️
-
-```
-yarn@v1.22.10 or higher
-```
+I created this project to ingest NFL data via their API and load it into a relational database system for
+analytics via tree-based ML classifiers.
 
 ---
 
-## How To Use
-
-From your command line, first clone Simplefolio:
-
-```bash
-# Clone the repository
-$ git clone https://github.com/cobiwave/simplefolio
-
-# Move into the repository
-$ cd simplefolio
-
-# Remove the current origin repository
-$ git remote remove origin
-```
-
-After that, you can install the dependencies either using NPM or Yarn.
-
-Using NPM: Simply run the below commands.
-
-```bash
-# 2022 Update - Fix Dependencies
-$ npm audit fix
-$ npm i @parcel/transformer-sass
-
-# Install dependencies
-$ npm install
-
-# Start the development server
-$ npm start
-```
-
-Using Yarn: Be aware of that you'll need to delete the `package-lock.json` file before executing the below commands.
-
-```bash
-# Install dependencies
-$ yarn
-
-# Start the development server
-$ yarn start
-```
-
-**NOTE**:
-If your run into issues installing the dependencies with NPM, use this below command:
-
-```bash
-# Install dependencies with all permissions
-$ sudo npm install --unsafe-perm=true --allow-root
-```
-
-Once your server has started, go to the local host url
-
-<h2 align="center">
-  <img src="https://github.com/cobiwave/gatsby-simplefolio/blob/master/examples/example.png" alt="Simplefolio" width="100%">
-</h2>
+## System Architecture
+- Data Sources: NFL Next Gen Stats APIs (JSON)
+- Ingestion: Python API-specific scrapers with shared factory logic
+- Processing: NFLDataClasses, NFLLoaders, and encapsulation methods to parse, normalize, and encapsulate data
+- Storage: SQLite relational database
+- Analytics Frameworks: NumPy, Pandas, Matplotlib
+- Modeling: Tree-based classifier trained with Gini and Entropy
+- Visualization: Decision-tree plot, QB passing-zone heatmaps (NFLDataVis)
 
 ---
 
-## Deployment
+## Technologies & Tools
+- Python - Primary programming language
+- Sqlite3 - Database driver
+- Matplotlib, NumPy, Pandas - Analytics
+- Scikit-learn - Decision tree
+- Requests - RESTful API integration
 
-Deployed with Netlify at [https://louisarawlesportfolio.netlify.app/](https://louisarawlesportfolio.netlify.app/).
+---
 
-I highly recommend to use [Netlify](https://netlify.com) because it is super easy.
+## Progress
+### Current Update
+I completed an end-to-end game statistic pipeline that ingests game data and loads it into a structured GameStats table
+via Python files in the NFLScrapers/GameCenter directory and the database driver. The decision tree file within the root
+directory trains a classifier with 500+ inputs and outputs well-informed game outcome predictions based on statistical analysis.
+### Coming Phases
+I will now enter phases to predict individual player performance, so that I can determine team metrics.
 
-## Technologies used
-
-- [Parcel](https://parceljs.org/) - Bundler
-- [Bootstrap 4](https://getbootstrap.com/docs/4.3/getting-started/introduction/) - Frontend component library
-- [Sass](https://sass-lang.com/documentation) - CSS extension language
-- [ScrollReveal.js](https://scrollrevealjs.org/) - JavaScript library
-- [Tilt.js](https://gijsroge.github.io/tilt.js/) - JavaScript tiny parallax library
+---
 
 ## Authors
-
-- **Jacobo Martinez** - [https://github.com/cobiwave](https://github.com/cobiwave)
 - **Louisa Rawles** - [https://github.com/louisarawles](https://github.com/louisarawles)
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
